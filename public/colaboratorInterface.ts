@@ -1,5 +1,5 @@
 export interface ColaboratorInterface {
-  name: string;
+  colaboratorName: string;
   cpf: string;
   email?: string;
   phone?: string;

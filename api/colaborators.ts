@@ -23,8 +23,6 @@ export async function setColaborator(colaborator: ColaboratorInterface) {
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
-  } finally {
-    // feedback para usuário de sucesso ou falha na operação
   }
 }
 
@@ -40,7 +38,7 @@ export async function getColaborators(): Promise<ColaboratorData[]> {
       const data = doc.data();
       colaborators.push({
         id: doc.id,
-        name: data.name,
+        colaboratorName: data.colaboratorName,
         cpf: data.cpf,
         email: data.email,
         phone: data.phone,
@@ -48,27 +46,37 @@ export async function getColaborators(): Promise<ColaboratorData[]> {
         status: data.status, // Adicionando o status ao objeto ColaboratorData
       });
     });
+    return colaborators;
   } catch (error) {
     console.error("Error getting documents: ", error);
     throw error;
   }
-
-  return colaborators;
 }
 
 //DELETE COLABORATOR
 export async function deleteColaborator(colaboratorId: string) {
   const colaboratorRef = doc(db, "colaborators", colaboratorId);
-  const response = await deleteDoc(colaboratorRef);
-  return response;
+  try {
+    const response = await deleteDoc(colaboratorRef);
+    console.log("Colaborador excluido:", response);
+    return response;
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
 }
 
 // EDIT COLABORATOR
 export async function editColaborator(colaborator: ColaboratorData) {
-  const editColaborator: ColaboratorData[] = [colaborator];
   const colaboratorRef = doc(db, "colaborators", colaborator.id);
-  await setDoc(colaboratorRef, colaborator);
-  return editColaborator;
+  try {
+    const resp = await setDoc(colaboratorRef, colaborator);
+    console.log("Colaborador editado:", resp);
+    return resp;
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    throw error;
+  }
 }
 
 //GET COLABORATOR status active
@@ -87,7 +95,7 @@ export async function getActiveColaborators(): Promise<ColaboratorOption[]> {
       const data = doc.data();
       colaborators.push({
         value: doc.id,
-        label: data.name,
+        label: data.colaboratorName,
       });
     });
   } catch (error) {
