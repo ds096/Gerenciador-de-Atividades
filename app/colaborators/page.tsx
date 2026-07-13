@@ -1,6 +1,6 @@
 "use client";
 import MenuItens from "@/components/MenuItens";
-import { SetColaboratorButton } from "@/components/SetColaboratorButton";
+import { SetColaboratorButton } from "@/components/ColaboratorSetButton";
 
 export default function Colaborators() {
   return (

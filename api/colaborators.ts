@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { notification } from "antd";
 import { db } from "./firebaseConfig";
 import {
   collection,
@@ -21,14 +21,30 @@ export async function setColaborator(colaborator: ColaboratorInterface) {
     const colaboratorDoc = doc(colaboratorsRef, colaborator.cpf);
     const existingDoc = await cpfExistis(colaborator.cpf);
     if (existingDoc) {
-      message.error("Número de CPF já cadastrado no sistema");
+      notification.error({
+        message: "Erro",
+        description: "Número de CPF já cadastrado no sistema",
+        placement: "topRight",
+        duration: 1,
+      });
       throw new Error("Já existe um colaborador cadastrado com este CPF.");
     }
     await setDoc(colaboratorDoc, colaborator);
     console.log("Document written:", colaborator);
-    message.success("Operação realizada com sucesso!");
+    notification.success({
+      message: "Cadastro realizado com Sucesso",
+      description: "Colaborador adicionado",
+      placement: "topRight",
+      duration: 1,
+    });
   } catch (error) {
     console.error("Error adding document: ", error);
+    notification.error({
+      message: "Erro",
+      description: "Falha ao cadastro colaborador",
+      placement: "topRight",
+      duration: 1,
+    });
     throw error;
   }
 }
@@ -74,8 +90,19 @@ export async function deleteColaborator(colaboratorId: string) {
   try {
     const response = await deleteDoc(colaboratorRef);
     console.log("Colaborador excluido:", response);
-    return response;
+    notification.success({
+      message: "Sucesso",
+      description: "Colaborador deletado com sucesso",
+      placement: "topRight",
+      duration: 1,
+    });
   } catch (error) {
+    notification.error({
+      message: "Erro",
+      description: "Falha ao deletar colaborador",
+      placement: "topRight",
+      duration: 1,
+    });
     console.error("Error adding document: ", error);
     throw error;
   }
@@ -86,10 +113,22 @@ export async function editColaborator(colaborator: ColaboratorData) {
   const colaboratorRef = doc(db, "colaborators", colaborator.id);
   try {
     const resp = await setDoc(colaboratorRef, colaborator);
+    notification.success({
+      message: "Sucesso",
+      description: "Colaborador editado com sucesso",
+      placement: "topRight",
+      duration: 1,
+    });
     console.log("Colaborador editado:", resp);
     return resp;
   } catch (error) {
     console.error("Error adding document: ", error);
+    notification.error({
+      message: "Erro",
+      description: "Falha ao editar colaborador",
+      placement: "topRight",
+      duration: 1,
+    });
     throw error;
   }
 }
