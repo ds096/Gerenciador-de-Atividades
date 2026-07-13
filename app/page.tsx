@@ -11,7 +11,7 @@ export default function HomePage() {
 
   function authentication(user: string, password: string) {
     console.log(user, password);
-    router.push("/activities");
+    router.push("/dashboard");
     // chamada de API aqui
   }
 

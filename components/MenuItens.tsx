@@ -3,7 +3,7 @@ import type { MenuProps } from "antd";
 import {
   UserOutlined,
   ProfileOutlined,
-  VerticalAlignBottomOutlined,
+  LineChartOutlined,
 } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { Menu } from "antd";
@@ -13,7 +13,7 @@ const items = [
   {
     label: "Dashboard",
     key: "dashboard",
-    icon: <VerticalAlignBottomOutlined />,
+    icon: <LineChartOutlined />,
   },
   {
     label: "Atividades Realizadas",

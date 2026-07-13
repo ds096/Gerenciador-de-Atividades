@@ -1,11 +1,11 @@
+import { message } from "antd";
 import { db } from "./firebaseConfig";
 import {
   collection,
-  addDoc,
+  setDoc,
   query,
   where,
   getDocs,
-  setDoc,
   doc,
   deleteDoc,
 } from "firebase/firestore";
@@ -17,13 +17,28 @@ import {
 //SET COLABORATOR
 export async function setColaborator(colaborator: ColaboratorInterface) {
   try {
-    const resp = await addDoc(collection(db, "colaborators"), colaborator);
-    console.log("Document written: ", resp);
-    return resp;
+    const colaboratorsRef = collection(db, "colaborators");
+    const colaboratorDoc = doc(colaboratorsRef, colaborator.cpf);
+    const existingDoc = await cpfExistis(colaborator.cpf);
+    if (existingDoc) {
+      message.error("Número de CPF já cadastrado no sistema");
+      throw new Error("Já existe um colaborador cadastrado com este CPF.");
+    }
+    await setDoc(colaboratorDoc, colaborator);
+    console.log("Document written:", colaborator);
+    message.success("Operação realizada com sucesso!");
   } catch (error) {
     console.error("Error adding document: ", error);
     throw error;
   }
+}
+
+// VERIFICA SE O CPF JÁ EXISTE NO BANCO
+export async function cpfExistis(cpf: string): Promise<boolean> {
+  const colaboratorsRef = collection(db, "colaborators");
+  const q = query(colaboratorsRef, where("cpf", "==", cpf));
+  const querySnapshot = await getDocs(q);
+  return !querySnapshot.empty;
 }
 
 //GET COLABORATOR
