@@ -1,9 +1,9 @@
 "use client";
 import { setColaborator } from "@/api/colaborators";
-import { Button, Form, Modal, Select, Input, message } from "antd";
+import { Button, Form, Modal, Select, Input } from "antd";
 import { useState } from "react";
 
-export function SetColaboratorButton() {
+export function SetColaboratorButton(onSuccess) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
@@ -16,7 +16,7 @@ export function SetColaboratorButton() {
     try {
       setConfirmLoading(true);
       const newColaborator = await form.validateFields();
-      setColaborator(newColaborator);
+      await setColaborator(newColaborator);
       form.resetFields();
       showModal();
     } catch {
@@ -77,7 +77,11 @@ export function SetColaboratorButton() {
             <Input placeholder="(00) 00000-0000" />
           </Form.Item>
 
-          <Form.Item label="Cargo" name="role">
+          <Form.Item
+            label="Cargo"
+            name="role"
+            rules={[{ required: true, message: "Função" }]}
+          >
             <Input placeholder="Ex: Analista, Gerente..." />
           </Form.Item>
 

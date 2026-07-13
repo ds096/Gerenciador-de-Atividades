@@ -1,9 +1,9 @@
 export interface ColaboratorInterface {
   colaboratorName: string;
   cpf: string;
-  email?: string;
-  phone?: string;
-  role?: string;
+  email: string;
+  phone: string;
+  role: string;
   status: "Ativo" | "Inativo";
 }
 
