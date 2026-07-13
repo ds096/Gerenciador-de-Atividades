@@ -19,8 +19,11 @@ import {
   editColaborator,
   getColaborators,
 } from "@/api/colaborators";
+interface ColaboratorsTableProps {
+  refreshKey: number;
+}
 
-const ColaboratorsTable: React.FC = () => {
+function ColaboratorsTable({ refreshKey }: ColaboratorsTableProps) {
   const [form] = Form.useForm<ColaboratorData>();
 
   const [data, setData] = useState<ColaboratorData[]>([]);
@@ -37,7 +40,7 @@ const ColaboratorsTable: React.FC = () => {
       setData(colaborators);
     };
     fetchColaborators();
-  }, []);
+  }, [refreshKey]);
 
   const handleEditClick = (record: ColaboratorData) => {
     setEditingRecord(record);
@@ -216,6 +219,6 @@ const ColaboratorsTable: React.FC = () => {
       <Table dataSource={data} columns={columns} rowKey={(data) => data.id} />
     </>
   );
-};
+}
 
 export default ColaboratorsTable;

@@ -1,9 +1,14 @@
 "use client";
 import { setColaborator } from "@/api/colaborators";
+import { ColaboratorData } from "@/public/colaboratorInterface";
 import { Button, Form, Modal, Select, Input } from "antd";
 import { useState } from "react";
 
-export function SetColaboratorButton(onSuccess) {
+interface SetColaboratorButtonProps {
+  onSuccess?: (colaborator: ColaboratorData) => void;
+}
+
+export function SetColaboratorButton({ onSuccess }: SetColaboratorButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
@@ -16,10 +21,12 @@ export function SetColaboratorButton(onSuccess) {
     try {
       setConfirmLoading(true);
       const newColaborator = await form.validateFields();
-      await setColaborator(newColaborator);
+      const resp = await setColaborator(newColaborator);
       form.resetFields();
       showModal();
+      onSuccess?.(resp);
     } catch {
+      throw new Error("Erro ao cadastrar colaborador");
     } finally {
       setConfirmLoading(false);
     }
