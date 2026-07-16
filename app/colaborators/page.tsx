@@ -10,6 +10,7 @@ export default function Colaborators() {
   const handleColaboratorCreated = useCallback(() => {
     setRefreshKey((prev) => prev + 1);
   }, []);
+
   return (
     <div>
       <div>

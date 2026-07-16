@@ -37,7 +37,7 @@ export async function getActivities(): Promise<ActivityData[]> {
         activityName: data.activityName,
         doneIn: data.doneIn,
         colaboratorName: data.colaboratorName,
-        colaboratorId: data.colaboratorId,
+        cpf: data.cpf,
         hoursSpent: data.hoursSpent,
       });
     });

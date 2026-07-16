@@ -37,6 +37,7 @@ export async function setColaborator(colaborator: ColaboratorInterface) {
       placement: "topRight",
       duration: 1,
     });
+    return true;
   } catch (error) {
     console.error("Error adding document: ", error);
     notification.error({

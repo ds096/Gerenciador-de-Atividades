@@ -19,11 +19,8 @@ import {
   editColaborator,
   getColaborators,
 } from "@/api/colaborators";
-interface ColaboratorsTableProps {
-  refreshKey: number;
-}
 
-function ColaboratorsTable({ refreshKey }: ColaboratorsTableProps) {
+function ColaboratorsTable({ refreshKey }: { refreshKey: number }) {
   const [form] = Form.useForm<ColaboratorData>();
 
   const [data, setData] = useState<ColaboratorData[]>([]);
@@ -34,7 +31,6 @@ function ColaboratorsTable({ refreshKey }: ColaboratorsTableProps) {
 
   // Carrega os dados dos colaboradores ao montar o componente
   useEffect(() => {
-    console.log("useEffect chamado");
     const fetchColaborators = async () => {
       const colaborators = await getColaborators();
       setData(colaborators);

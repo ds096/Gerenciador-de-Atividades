@@ -2,7 +2,7 @@ export interface ActivityInterface {
   activityName: string;
   doneIn: string;
   colaboratorName: string;
-  colaboratorId: string;
+  cpf: string;
   hoursSpent: number;
 }
 
