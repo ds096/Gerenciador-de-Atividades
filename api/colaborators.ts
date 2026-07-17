@@ -135,22 +135,23 @@ export async function editColaborator(colaborator: ColaboratorData) {
 }
 
 //GET COLABORATOR status active
-export interface ColaboratorOption {
-  value: string;
-  label: string;
+
+export interface ActiveColaborators {
+  colaboratorName: string;
+  cpf: string;
 }
-export async function getActiveColaborators(): Promise<ColaboratorOption[]> {
+export async function getActiveColaborators(): Promise<ActiveColaborators[]> {
   const colaboratosRef = collection(db, "colaborators");
   const q = query(colaboratosRef, where("status", "==", "Ativo"));
-  const colaborators: ColaboratorOption[] = [];
+  const colaborators: ActiveColaborators[] = [];
 
   try {
     const colaboratorsSnapshot = await getDocs(q);
     colaboratorsSnapshot.forEach((doc) => {
       const data = doc.data();
       colaborators.push({
-        value: doc.id,
-        label: data.colaboratorName,
+        cpf: doc.id,
+        colaboratorName: data.colaboratorName,
       });
     });
   } catch (error) {
