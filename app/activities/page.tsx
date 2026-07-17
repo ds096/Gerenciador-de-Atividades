@@ -4,19 +4,27 @@ import { ActivitySetButton } from "@/components/ActivitySetButton";
 import { ActivityTable } from "@/components/ActivityTable";
 import { useEffect, useState } from "react";
 import { ActivityData } from "@/public/activitieInterface";
-import { deleteActivitie, getActivities } from "@/api/activities";
-import { notification } from "antd";
+import { getActivities } from "@/api/activities";
+import { ActiveColaborators, getActiveColaborators } from "@/api/colaborators";
 
 export default function Activities() {
   const [data, setData] = useState<ActivityData[]>([]);
+  const [activeColaborators, setActiveColaborators] = useState<
+    ActiveColaborators[]
+  >([]);
 
+  // GET ACTIVITIES DATA FOR ACTIVITY TABLE AND ACTIVIES COLABORATOR
   useEffect(() => {
-    async function fetchActivities() {
-      const activities = await getActivities();
-      setData(activities);
+    async function fetchData() {
+      const fetchActivities = await getActivities();
+      const fetchActiveColaborators = await getActiveColaborators();
+      setData(fetchActivities);
+      setActiveColaborators(fetchActiveColaborators);
     }
-    fetchActivities();
+    fetchData();
   }, []);
+
+  const handleSave = () => {};
 
   return (
     <div>
@@ -24,8 +32,11 @@ export default function Activities() {
         <MenuItens selectedKey="activities" />
       </div>
       <div className="p-6 space-y-4">
-        <ActivitySetButton />
-        <ActivityTable data={data} />
+        <ActivitySetButton
+          handleSave={handleSave}
+          activeColaborators={activeColaborators}
+        />
+        <ActivityTable />
       </div>
     </div>
   );
